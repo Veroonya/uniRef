@@ -18,6 +18,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Collections;
 
+/**
+ * Тестирование сервиса работы с типом справочника
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class RefTypeServiceTest {
@@ -33,6 +36,9 @@ class RefTypeServiceTest {
   @MockBean
   private RefFieldRepo refFieldRepo;
 
+  /**
+   * Создание справочника
+   */
   @Test
   void createRefType() {
     String refTypeName = "Справочник фамилий";
@@ -44,6 +50,9 @@ class RefTypeServiceTest {
     Mockito.verify(refTypeRepo, Mockito.times(1)).save(refType);
   }
 
+  /**
+   * Создание справочника, если с таким именем уже существует
+   */
   @Test
   void createRefTypeFail() {
     String refTypeName = "Справочник фамилий";
@@ -60,7 +69,9 @@ class RefTypeServiceTest {
   }
 
 
-  //Тестируем случай добавления поля, если с таким порядковым номером уже существует.
+  /**
+   * Добавление поля, если с таким порядковым номером уже существует.
+   */
   @Test
   void addRefFieldOrderExists() {
     String refTypeName = "Справочник фамилий";
@@ -111,7 +122,9 @@ class RefTypeServiceTest {
 
   }
 
-  //Тестируем случай добавления поля, если порядковый номер поля не указан
+  /**
+   * Тест добавления поля, если порядковый номер поля не указан
+   */
   @Test
   void addRefFieldOrderNotExists() {
 
@@ -160,7 +173,9 @@ class RefTypeServiceTest {
   }
 
 
-  //Тестируем случай добавления поля, если порядковый номер поля указан, но такого еще нет в БД
+  /**
+   * Тест добавления поля, если порядковый номер поля указан, но такого еще нет в БД
+   */
   @Test
   void addRefFieldOrder() {
 
@@ -200,7 +215,9 @@ class RefTypeServiceTest {
     Mockito.verify(refFieldRepo, Mockito.times(1)).save(refField);
   }
 
-  //Тестируем случай добавления поля, Справочника нет в БД
+  /**
+   * Тест  добавления поля, Справочника нет в БД
+   */
   @Test
   void addRefFieldTypeNotExists() {
 
@@ -219,7 +236,9 @@ class RefTypeServiceTest {
     Mockito.verify(refFieldRepo, Mockito.never()).save(ArgumentMatchers.any(RefField.class));
   }
 
-  //Тестируем случай добавления поля, если типа поля нет в БД
+  /**
+   * Тест добавления поля, если типа поля нет в БД
+   */
   @Test
   void addRefFieldFieldTypeNotExists() {
 
@@ -245,7 +264,9 @@ class RefTypeServiceTest {
     Mockito.verify(refFieldRepo, Mockito.never()).save(ArgumentMatchers.any(RefField.class));
   }
 
-  //Тестируем случай добавления поля, если с таким именем номером уже существует.
+  /**
+   * Тест добавления поля, если с таким именем номером уже существует.
+   */
   @Test
   void addRefFieldFieldExists() {
     String refTypeName = "Справочник фамилий";

@@ -9,24 +9,46 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Сервис для работы со справочниками
+ */
 @Service
 public class RefTypeService {
 
-  @Autowired
-  private RefTypeRepo refTypeRepo;
-
-  @Autowired
-  private RefFieldRepo refFieldRepo;
-
+  /**
+   * Репозиторий для работы с типами полей
+   */
   @Autowired
   private FieldTypeRepo fieldTypeRepo;
-
+  /**
+   * Репозиторий для работы со значениями объектов справочника
+   */
   @Autowired
   private RefValuesRepo refValuesRepo;
 
+  /**
+   * Репозиторий для работы с объектами справочник
+   */
   @Autowired
   private RefObjRepo refObjRepo;
 
+  /**
+   * Репозиторий для работы со справочниками
+   */
+  @Autowired
+  private RefTypeRepo refTypeRepo;
+
+  /**
+   * Репозиторий для работы с полями справочника
+   */
+  @Autowired
+  private RefFieldRepo refFieldRepo;
+
+  /**
+   * Создание справочника
+   * @param name Наименование справочника
+   * @return Справочник
+   */
   public RefType createRefType(String name) {
     RefType refType = refTypeRepo.findByName(name);
     if (refType != null) return refType;
@@ -36,11 +58,21 @@ public class RefTypeService {
     return refType;
   }
 
+  /**
+   * Обновление справочника
+   * @param refType Справочник
+   * @return Справочник
+   */
   public RefType updateRefType(RefType refType) {
+    //TODO: Полезнее был бы метод, чтобы менять наименование, заменять одно на другое
     refTypeRepo.save(refType);
     return refType;
   }
 
+  /**
+   * Удаление справочника со всеми значениями
+   * @param refType Справочник
+   */
   public void deleteRefType(RefType refType) {
     List<RefField> refFields = refFieldRepo.findAllByRefType(refType);
     refFields.forEach(refField ->  refValuesRepo.deleteAll(refValuesRepo.findAllByRefField(refField)));
@@ -48,7 +80,15 @@ public class RefTypeService {
     refFieldRepo.deleteAll(refFields);
     refTypeRepo.delete(refType);
   }
-  
+
+  /**
+   * Добавляет поле в справочник
+   * @param refTypeName Наименование справочника
+   * @param nameField Ниаменование поля
+   * @param fieldTypeName Ниаменование типа поля
+   * @param order порядок поля в справочнике
+   * @return поле справочника
+   */
   public RefField addRefField(String refTypeName, String nameField, String fieldTypeName, Integer order) {
     RefType refType = refTypeRepo.findByName(refTypeName);
     if (refType == null) return null;
@@ -61,7 +101,15 @@ public class RefTypeService {
     return addRefField(refType, nameField, fieldType, order);
   }
 
-  public RefField addRefField(RefType refType, String nameField, FieldType fieldType, Integer order) {
+  /**
+   *  Добавляет поле в справочник
+   * @param refType Справочника
+   * @param nameField Наименование поля
+   * @param fieldType Тип поля
+   * @param order порядок поля в справочнике
+   * @return поле справочника
+   */
+  private RefField addRefField(RefType refType, String nameField, FieldType fieldType, Integer order) {
     RefField refField = new RefField();
     refField.setRefType(refType);
     refField.setName(nameField);
@@ -82,12 +130,22 @@ public class RefTypeService {
     return refField;
   }
 
+  /**
+   * Обновляет поле справочника
+   * @param refField поле справочника
+   * @return поле справочника
+   */
   public RefField updateRefField(RefField refField) {
     refFieldRepo.save(refField);
     return refField;
   }
 
+  /**
+   * Удаляет поле справочника
+   * @param refField поле справочника
+   */
   public void deleteRefField(RefField refField) {
+    //TODO: лучше реализовать метод для удаления по наименованию справочника и наименованию поля
     refFieldRepo.delete(refField);
   }
 

@@ -17,6 +17,9 @@ import java.lang.reflect.Field;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Тестирование сервиса типов полей
+ */
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class FieldTypeServiceTest {
@@ -26,6 +29,9 @@ class FieldTypeServiceTest {
   @MockBean
   private FieldTypeRepo fieldTypeRepo;
 
+  /**
+   * Создание типа поля
+   */
   @Test
   void createFieldType() {
     String name = "Целое число";
@@ -41,6 +47,9 @@ class FieldTypeServiceTest {
     Mockito.verify(fieldTypeRepo, Mockito.times(1)).save(fieldType);
   }
 
+  /**
+   * Создание типа поля, если с таким именем уже существует
+   */
   @Test
   void createFieldTypeNameExists() {
     String name = "Целое число";
@@ -58,6 +67,9 @@ class FieldTypeServiceTest {
     Mockito.verify(fieldTypeRepo, Mockito.never()).save(ArgumentMatchers.any(FieldType.class));
   }
 
+  /**
+   * Создание типа поля, если с таким шаблоном уже существует
+   */
   @Test
   void createFieldTypePatternExists() {
     String name = "Целое число";
