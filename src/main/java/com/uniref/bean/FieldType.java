@@ -1,16 +1,17 @@
 package com.uniref.bean;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Pattern {
+public class FieldType {
 
+  @Id
+  @GeneratedValue(strategy= GenerationType.AUTO)
   private Long id;
   private String name;
   private String pattern;
 
-  public Pattern() {
+  public FieldType() {
 
   }
 
@@ -18,7 +19,7 @@ public class Pattern {
     this.id = id;
   }
 
-  @Id
+//  @Id
   public Long getId() {
     return id;
   }
